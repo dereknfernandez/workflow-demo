@@ -9,7 +9,7 @@ include { logistic_regression; logistic_regression_subclass } from './modules/lo
 include { evaluate_models } from './modules/eval.nf'
 
 workflow {
-    _datadir = Channel.fromPath('${projectDir}/data/')
+    _datadir = Channel.fromPath("${projectDir}/data/")
 
     prepare_data(_datadir)
     process_features(prepare_data.out.train_set, prepare_data.out.test_set)
