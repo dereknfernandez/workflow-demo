@@ -7,8 +7,6 @@ process evaluate_models {
     path logres_model_subclass
     path dt_model
     path dt_model_subclass
-    path rf_model
-    path rf_model_subclass
     path label_encoder1
     path label_encoder2
     path kbest_test_20
@@ -28,8 +26,6 @@ process evaluate_models {
     logres_d=joblib.load('${logres_model_subclass}')
     dt=joblib.load('${dt_model}')
     dt_d=joblib.load('${dt_model_subclass}')
-    rf=joblib.load('${rf_model}')
-    rf_d=joblib.load('${rf_model_subclass}')
     lab_enc1=joblib.load('${label_encoder1}')
     lab_enc2=joblib.load('${label_encoder2}')
 
@@ -59,13 +55,6 @@ process evaluate_models {
     disorder_subclass_dt=lab_enc2.inverse_transform(dt_subclass_pred)
     output=pd.DataFrame({'Patient Id': ids,'Genetic_Disorder':gen_disorder_dt,'Disorder_Subclass':disorder_subclass_dt})
     output.to_csv('eval_dt.csv',index=False)
-    
-    rf_pred=rf.predict(result_kbest_test20)
-    rf_subclass_pred=logres_subclass_pred=rf_d.predict(result_kbest_test20d)
-    gen_disorder_rf=lab_enc1.inverse_transform(rf_pred)
-    disorder_subclass_rf=lab_enc2.inverse_transform(rf_subclass_pred)
-    output=pd.DataFrame({'Patient Id': ids,'Genetic_Disorder':gen_disorder_rf,'Disorder_Subclass':disorder_subclass_rf})
-    output.to_csv('eval_rf.csv',index=False)
     EOF
     """
 }
