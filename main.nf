@@ -6,11 +6,11 @@ include { knn; knn_subclass } from './modules/knn.nf'
 include { decision_tree; decision_tree_subclass } from './modules/decision_tree.nf'
 include { logistic_regression; logistic_regression_subclass } from './modules/log_res.nf'
 include { evaluate_models } from './modules/eval.nf'
+include { download_data } from './modules/download_dataset'
 
 workflow {
-    _datadir = Channel.fromPath("${projectDir}/data/")
-
-    prepare_data(_datadir)
+    download_data()
+    prepare_data(download_data.out.train_dataset, download_data.out.test_dataset)
     process_features(prepare_data.out.train_set, prepare_data.out.test_set)
 
     knn(process_features.out.kbest_20, process_features.out.y1_enco, process_features.out.kbest_val, process_features.out.y1_en_val)
@@ -21,7 +21,7 @@ workflow {
     logistic_regression_subclass(process_features.out.kbest_20d, process_features.out.y2_enco, process_features.out.kbest_vald, process_features.out.y2_en_val)
     
     evaluate_models(
-        _datadir, 
+        download_data.out.test_dataset,
         knn.out.knn_model, 
         knn_subclass.out.knn_model_subclass, 
         logistic_regression.out.logres_model, 

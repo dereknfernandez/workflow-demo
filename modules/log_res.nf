@@ -6,6 +6,8 @@ process logistic_regression {
     path y1_en_val
   output:
     path 'logres.pkl', emit: logres_model
+  
+  publishDir path: "${launchDir}/outputs/models", mode: 'copy'
     
   script:
     """
@@ -56,6 +58,8 @@ process logistic_regression_subclass {
     path y2_en_val
   output:
     path 'logres_d.pkl', emit: logres_model_subclass
+
+  publishDir path: "${launchDir}/outputs/models", mode: 'copy'
 
   script:
     """

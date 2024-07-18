@@ -1,6 +1,7 @@
 process prepare_data {
   input:
-    path _datadir
+    path train_dataset
+    path test_dataset
   output:
     path "train_processed.csv", emit: train_set
     path "test_processed.csv", emit: test_set
@@ -12,8 +13,8 @@ process prepare_data {
     import pandas as pd
     import numpy as np
 
-    train=pd.read_csv('${_datadir}/train_genetic_disorders.csv')
-    test=pd.read_csv('${_datadir}/test_genetic_disorders.csv')
+    train=pd.read_csv('${train_dataset}')
+    test=pd.read_csv('${test_dataset}')
     
     data_train=train.copy()
     data_test=test.copy()

@@ -1,6 +1,6 @@
 process evaluate_models {
   input:
-    path _datadir
+    path test_dataset
     path knn_model
     path knn_model_subclass
     path logres_model
@@ -11,6 +11,13 @@ process evaluate_models {
     path label_encoder2
     path kbest_test_20
     path kbest_test_20d
+  
+  output:
+    path 'eval_knn.csv'
+    path 'eval_dt.csv'
+    path 'eval_logres.csv'
+  
+  publishDir path: "${launchDir}/outputs", mode: 'copy'
     
   script:
     """
@@ -18,7 +25,7 @@ process evaluate_models {
     import joblib
     import pandas as pd
     
-    test=pd.read_csv('${_datadir}/test_genetic_disorders.csv')
+    test=pd.read_csv('${test_dataset}')
 
     knn=joblib.load('${knn_model}')
     knn_d=joblib.load('${knn_model_subclass}')

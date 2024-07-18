@@ -6,7 +6,9 @@ process decision_tree {
     path y1_en_val
   output:
     path 'dt.pkl', emit: dt_model
-    
+  
+  publishDir path: "${launchDir}/outputs/models", mode: 'copy'
+
   script:
     """
     python3 - <<EOF
@@ -43,6 +45,8 @@ process decision_tree_subclass {
     path y2_en_val
   output:
     path 'dt_d.pkl', emit: dt_model_subclass
+  
+  publishDir path: "${launchDir}/outputs/models", mode: 'copy'
     
   script:
     """

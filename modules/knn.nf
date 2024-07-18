@@ -6,6 +6,8 @@ process knn {
     path y1_en_val
   output:
     path 'knn.pkl', emit: knn_model
+  
+  publishDir path: "${launchDir}/outputs/models", mode: 'copy'
     
   script:
     """
@@ -58,6 +60,8 @@ process knn_subclass {
   output:
     path 'knn_d.pkl', emit: knn_model_subclass
 
+  publishDir path: "${launchDir}/outputs/models", mode: 'copy'
+  
   script:
     """
     python3 - <<EOF
